@@ -1,16 +1,19 @@
 package kvraft
 
-import "6.5840/porcupine"
-import "6.5840/models"
-import "testing"
-import "strconv"
-import "time"
-import "math/rand"
-import "strings"
-import "sync"
-import "sync/atomic"
-import "fmt"
-import "io/ioutil"
+import (
+	"fmt"
+	"io/ioutil"
+	"math/rand"
+	"strconv"
+	"strings"
+	"sync"
+	"sync/atomic"
+	"testing"
+	"time"
+
+	"6.5840/models"
+	"6.5840/porcupine"
+)
 
 // The tester generously allows solutions to complete elections in one second
 // (much more than the paper's range of timeouts).
@@ -80,7 +83,9 @@ func Put(cfg *config, ck *Clerk, key string, value string, log *OpLog, cli int) 
 
 func Append(cfg *config, ck *Clerk, key string, value string, log *OpLog, cli int) {
 	start := int64(time.Since(t0))
+	// DPrintf("Begin append kv(%s, %s)", key, value)
 	ck.Append(key, value)
+	// DPrintf("Appended kv(%s, %s)", key, value)
 	end := int64(time.Since(t0))
 	cfg.op()
 	if log != nil {
@@ -337,7 +342,9 @@ func GenericTest(t *testing.T, part string, nclients int, nservers int, unreliab
 		// log.Printf("wait for clients\n")
 		for i := 0; i < nclients; i++ {
 			// log.Printf("read from clients %d\n", i)
+			// log.Printf("wait begin")
 			j := <-clnts[i]
+			// log.Printf("wait end")
 			// if j < 10 {
 			// 	log.Printf("Warning: client %d managed to perform only %d put operations in 1 sec?\n", i, j)
 			// }
