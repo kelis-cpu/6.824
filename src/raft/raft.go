@@ -758,6 +758,7 @@ func (rf *Raft) applyTicker(applyChan chan ApplyMsg) {
 		time.Sleep(time.Duration(APPLY_TIMEOUT) * time.Millisecond)
 	}
 }
+func (rf *Raft) GetMe() int { return rf.me }
 
 // the service or tester wants to create a Raft server. the ports
 // of all the Raft servers (including this one) are in peers[]. this
